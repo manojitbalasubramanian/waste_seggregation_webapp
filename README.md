@@ -1,2 +1,3 @@
 # waste_seggregation_webapp
-hackathon
+
+hackathon_project
