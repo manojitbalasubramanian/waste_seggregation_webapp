@@ -14,8 +14,7 @@ function Login() {
     e.preventDefault();
     const user = await login(identifier, password);
     if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      setAuthUser(user);
+      // localStorage is already handled in useLogin hook
       navigate("/");
     }
   };

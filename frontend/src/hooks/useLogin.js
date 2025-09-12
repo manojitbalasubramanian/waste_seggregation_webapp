@@ -25,17 +25,25 @@ const useLogin = () => {
                 throw new Error(data.error)
             }
 
+            // Store specific user data separately
+            localStorage.setItem('userId', data._id);
+            localStorage.setItem('token', data.token);
+
             const userData = {
-                _id: data._id,
-                username: data.username,
-                fullname: data.fullname,
-                email: data.email,
+                _id: data.user._id,
+                username: data.user.username,
+                email: data.user.email,
                 token: data.token,
-                admin: data.admin
+                isAdmin: data.user.isAdmin,
+                isVendor: data.user.isVendor,
+                isUser: data.user.isUser
             };
 
-            console.log('Admin status after login:', userData.admin);
+            // Store user data in localStorage
             localStorage.setItem("user", JSON.stringify(userData));
+            localStorage.setItem("userId", data._id); // Store userId separately for easy access
+            localStorage.setItem("token", data.token); // Store token separately for easy access
+            
             setAuthUser(userData);
             toast.success("Login successful");
             return userData; 

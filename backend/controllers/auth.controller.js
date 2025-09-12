@@ -41,7 +41,18 @@ export const signup = async (req, res) => {
             { expiresIn: "15d" }
         );
         generatetokenandsetcookie(newuser._id, res);
-        return res.status(201).json({ message: "User registered successfully", user: newuser });
+        return res.status(201).json({ 
+            message: "User registered successfully", 
+            user: {
+                _id: newuser._id,
+                username: newuser.username,
+                email: newuser.email,
+                isAdmin: newuser.isAdmin,
+                isVendor: newuser.isVendor,
+                isUser: newuser.isUser
+            },
+            token 
+        });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
@@ -61,8 +72,24 @@ export const login = async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({ error: "Invalid credentials" });
         }
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: "15d" }
+        );
         generatetokenandsetcookie(user._id, res);
-        return res.status(200).json({ message: "Login successful", user });
+        return res.status(200).json({ 
+            message: "Login successful", 
+            user: {
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+                isAdmin: user.isAdmin,
+                isVendor: user.isVendor,
+                isUser: user.isUser
+            },
+            token 
+        });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }

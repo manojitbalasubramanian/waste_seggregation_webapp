@@ -17,7 +17,10 @@ const useLogout =()=>{
             if(data.error){
                 throw new Error(data.error);
             }
+            // Clear all auth-related items from localStorage
             localStorage.removeItem("user");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("token");
             setAuthUser(null);
             toast.success("Logout successful");
             
