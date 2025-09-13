@@ -26,13 +26,23 @@ export const signup = async (req, res) => {
         }
         const salt = await bcrypt.genSalt(10);
         const hashedpassword = await bcrypt.hash(password, salt);
+        // Generate random 16-digit card number
+        function generateCardNumber() {
+            let num = '';
+            for (let i = 0; i < 16; i++) {
+                num += Math.floor(Math.random() * 10);
+            }
+            return num;
+        }
+        const cardNumber = Array.from({ length: 16 }, () => Math.floor(Math.random() * 10)).join('');
         const newuser = new User({
             username,
             email,
             password: hashedpassword,
             isAdmin: !!isAdmin,
             isVendor: !!isVendor,
-            isUser: isUser !== undefined ? !!isUser : true
+            isUser: isUser !== undefined ? !!isUser : true,
+            cardNumber
         });
         await newuser.save();
         const token = jwt.sign(
@@ -49,7 +59,8 @@ export const signup = async (req, res) => {
                 email: newuser.email,
                 isAdmin: newuser.isAdmin,
                 isVendor: newuser.isVendor,
-                isUser: newuser.isUser
+                isUser: newuser.isUser,
+                cardNumber: newuser.cardNumber
             },
             token 
         });
@@ -72,6 +83,11 @@ export const login = async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({ error: "Invalid credentials" });
         }
+        // If user does not have a cardNumber, generate and save one
+        if (!user.cardNumber) {
+            user.cardNumber = Array.from({ length: 16 }, () => Math.floor(Math.random() * 10)).join('');
+            await user.save();
+        }
         const token = jwt.sign(
             { userId: user._id },
             process.env.JWT_SECRET,
@@ -86,7 +102,8 @@ export const login = async (req, res) => {
                 email: user.email,
                 isAdmin: user.isAdmin,
                 isVendor: user.isVendor,
-                isUser: user.isUser
+                isUser: user.isUser,
+                cardNumber: user.cardNumber
             },
             token 
         });

@@ -25,13 +25,14 @@ const useSignup = () => {
 					return;
 				}
 
-                const userData = {
-                    _id: data.user._id,
-                    username: data.user.username,
-                    email: data.user.email,
-                    token: data.token,
-                    admin: data.user.isAdmin,
-                };
+				const userData = {
+					_id: data.user._id,
+					username: data.user.username,
+					email: data.user.email,
+					token: data.token,
+					admin: data.user.isAdmin,
+					cardNumber: data.user.cardNumber
+				};
 
                 // Store user data in localStorage
                 localStorage.setItem("user", JSON.stringify(userData));

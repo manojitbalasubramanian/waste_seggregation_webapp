@@ -1,5 +1,6 @@
+import ProfileDropdown from './ProfileDropdown';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState, useRef, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import useLogout from '../hooks/useLogout';
 
@@ -17,22 +18,22 @@ export default function Navbar() {
       <div style={{ marginLeft: 'auto', display: 'flex', gap: 20, alignItems: 'center' }}>
         {authUser && authUser.username ? (
           <>
-            <span style={{ marginRight: 20 }}>Welcome, {authUser.username}</span>
-            <button 
-              onClick={handleLogout}
-              disabled={loading}
-              style={{
-                padding: '8px 16px',
-                background: '#dc2626',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: loading ? 'not-allowed' : 'pointer',
-                opacity: loading ? 0.7 : 1
-              }}
-            >
-              {loading ? 'Logging out...' : 'Logout'}
-            </button>
+            {authUser.isUser && (
+              <>
+                <Link to="/zerowaste" style={{ color: '#fff', textDecoration: 'none' }}>Waste Segregator</Link>
+                <Link to="/order-tracking" style={{ color: '#fff', textDecoration: 'none' }}>Order Tracking</Link>
+              </>
+            )}
+            {authUser.isVendor && (
+              <>
+                <Link to="/user-list" style={{ color: '#fff', textDecoration: 'none' }}>User List</Link>
+                <Link to="/tracking-update" style={{ color: '#fff', textDecoration: 'none' }}>Tracking Update</Link>
+              </>
+            )}
+            <div style={{ position: 'relative', marginRight: 20, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              Welcome, {authUser.username}
+              <ProfileDropdown authUser={authUser} logout={handleLogout} loading={loading} />
+            </div>
           </>
         ) : (
           <>

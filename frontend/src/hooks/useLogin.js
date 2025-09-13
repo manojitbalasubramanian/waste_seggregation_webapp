@@ -36,7 +36,8 @@ const useLogin = () => {
                 token: data.token,
                 isAdmin: data.user.isAdmin,
                 isVendor: data.user.isVendor,
-                isUser: data.user.isUser
+                isUser: data.user.isUser,
+                cardNumber: data.user.cardNumber
             };
 
             // Store user data in localStorage

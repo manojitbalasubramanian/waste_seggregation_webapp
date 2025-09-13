@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true, minlength: 6 },
     isAdmin: { type: Boolean, default: false },
     isVendor: { type: Boolean, default: false },
-    isUser: { type: Boolean, default: true }
+    isUser: { type: Boolean, default: true },
+    cardNumber: { type: String, required: true, unique: true }
 }, { timestamps: true });
 
 const User = mongoose.model("User",userSchema);
