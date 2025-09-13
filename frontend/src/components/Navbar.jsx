@@ -30,6 +30,14 @@ export default function Navbar() {
                 <Link to="/tracking-update" style={{ color: '#fff', textDecoration: 'none' }}>Tracking Update</Link>
               </>
             )}
+            {authUser.isAdmin && (
+              <>
+                <Link to="/user-list" style={{ color: '#fff', textDecoration: 'none' }}>User List</Link>
+                <Link to="/tracking-update" style={{ color: '#fff', textDecoration: 'none' }}>Tracking Update</Link>
+                <Link to="/zerowaste" style={{ color: '#fff', textDecoration: 'none' }}>Waste Segregator</Link>
+                <Link to="/order-tracking" style={{ color: '#fff', textDecoration: 'none' }}>Order Tracking</Link>
+              </>
+            )}
             <div style={{ position: 'relative', marginRight: 20, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               Welcome, {authUser.username}
               <ProfileDropdown authUser={authUser} logout={handleLogout} loading={loading} />
